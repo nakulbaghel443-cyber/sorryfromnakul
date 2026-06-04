@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorry Madam Ji 🤍</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf6ee;
+    --blush: #f9e0e0;
+    --pink: #f4b8c1;
+    --rose: #e8829a;
+    --sky: #d4edf7;
+    --blue: #a8d4e8;
+    --lilac: #e8daf4;
+    --white: #ffffff;
+    --text: #5a3a4a;
+    --muted: #9a7a88;
+    --glass: rgba(255,255,255,0.62);
+    --glass-border: rgba(255,255,255,0.85);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ── Background canvas ── */
+  .bg-gradient {
+    position: fixed; inset: 0; z-index: -2;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, #fce4ec88 0%, transparent 60%),
+      radial-gradient(ellipse 70% 50% at 80% 20%, #d4edf788 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 50% 80%, #f3e5f588 0%, transparent 60%),
+      linear-gradient(160deg, #fdf6ee 0%, #fce9f0 50%, #eef6fd 100%);
+  }
+
+  /* ── Floating elements ── */
+  .float-layer {
+    position: fixed; inset: 0; z-index: -1;
+    pointer-events: none; overflow: hidden;
+  }
+
+  .floater {
+    position: absolute;
+    animation: floatUp linear infinite;
+    opacity: 0;
+    font-size: 1.4rem;
+    user-select: none;
+  }
+
+  @keyframes floatUp {
+    0%   { opacity: 0;   transform: translateY(100vh) rotate(0deg); }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.5; }
+    100% { opacity: 0;   transform: translateY(-10vh) rotate(30deg); }
+  }
+
+  /* ── Sections ── */
+  section { padding: 60px 20px; max-width: 720px; margin: 0 auto; }
+
+  /* ── Glass card ── */
+  .glass {
+    background: var(--glass);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    border: 1.5px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(200,130,150,0.12), 0 2px 8px rgba(0,0,0,0.04);
+    padding: 28px 26px;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding-top: 80px;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--pink), var(--blue));
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 22px;
+    animation: fadeSlideDown 0.9s ease both;
+  }
+
+  h1.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 10vw, 5rem);
+    font-weight: 600;
+    background: linear-gradient(135deg, #c0627a, #7bafc8, #b87ab0);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.15;
+    margin-bottom: 18px;
+    animation: fadeSlideDown 1s 0.15s ease both;
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 380px;
+    line-height: 1.7;
+    font-style: italic;
+    animation: fadeSlideDown 1s 0.3s ease both;
+    margin-bottom: 36px;
+  }
+
+  /* ── Cartoon character ── */
+  .character-wrap {
+    position: relative;
+    width: 200px; height: 240px;
+    margin: 0 auto 20px;
+    animation: fadeSlideDown 1s 0.45s ease both;
+  }
+
+  .character-svg {
+    width: 100%; height: 100%;
+    filter: drop-shadow(0 12px 24px rgba(200,100,130,0.18));
+    animation: bobble 4s ease-in-out infinite;
+  }
+
+  @keyframes bobble {
+    0%,100% { transform: translateY(0) rotate(-1deg); }
+    50%      { transform: translateY(-10px) rotate(1deg); }
+  }
+
+  /* floating text bubbles around character */
+  .bubble {
+    position: absolute;
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    padding: 5px 13px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--rose);
+    white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(220,130,150,0.14);
+    animation: bubbleFloat 3s ease-in-out infinite;
+  }
+  .bubble:nth-child(2) { top: 10px; left: -110px; animation-delay: 0s; }
+  .bubble:nth-child(3) { top: 80px; right: -105px; animation-delay: 0.7s; }
+  .bubble:nth-child(4) { bottom: 20px; left: -90px; animation-delay: 1.4s; }
+
+  @keyframes bubbleFloat {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+  }
+
+  /* ── Section headings ── */
+  .sec-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.7rem, 6vw, 2.3rem);
+    font-weight: 600;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 32px;
+    line-height: 1.3;
+  }
+
+  /* ── Memory cards ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+  }
+
+  .mem-card {
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    border: 1.5px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 22px 20px;
+    box-shadow: 0 6px 20px rgba(200,130,150,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+  }
+  .mem-card:hover { transform: translateY(-5px); box-shadow: 0 14px 34px rgba(200,130,150,0.16); }
+
+  .mem-icon { font-size: 2rem; margin-bottom: 10px; }
+  .mem-title { font-weight: 700; font-size: 0.95rem; color: var(--text); margin-bottom: 6px; }
+  .mem-desc  { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+
+  /* color accents per card */
+  .mem-card:nth-child(1) { background: linear-gradient(145deg, rgba(249,224,224,0.7), rgba(255,255,255,0.7)); }
+  .mem-card:nth-child(2) { background: linear-gradient(145deg, rgba(212,237,247,0.7), rgba(255,255,255,0.7)); }
+  .mem-card:nth-child(3) { background: linear-gradient(145deg, rgba(232,218,244,0.7), rgba(255,255,255,0.7)); }
+  .mem-card:nth-child(4) { background: linear-gradient(145deg, rgba(249,240,220,0.7), rgba(255,255,255,0.7)); }
+  .mem-card:nth-child(5) { background: linear-gradient(145deg, rgba(220,244,230,0.7), rgba(255,255,255,0.7)); }
+
+  /* ── Tease section ── */
+  #tease { padding-bottom: 30px; }
+
+  .tease-grid {
+    display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  .tease-chip {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border: 1.5px solid var(--glass-border);
+    border-radius: 50px;
+    padding: 12px 22px;
+    font-size: 0.88rem; font-weight: 700;
+    color: var(--rose);
+    box-shadow: 0 4px 16px rgba(200,130,150,0.1);
+    transition: transform 0.25s, box-shadow 0.25s;
+    cursor: default;
+  }
+  .tease-chip:hover { transform: scale(1.07) rotate(-1deg); box-shadow: 0 8px 24px rgba(200,130,150,0.18); }
+
+  .tease-note {
+    text-align: center;
+    font-size: 0.84rem;
+    color: var(--muted);
+    font-style: italic;
+    padding: 16px 22px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 16px;
+    border: 1px dashed var(--pink);
+    max-width: 480px; margin: 0 auto;
+  }
+
+  /* ── Apology letter ── */
+  .letter-card {
+    background: linear-gradient(145deg, rgba(255,245,248,0.9), rgba(245,252,255,0.9));
+    border: 1.5px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 34px 30px;
+    box-shadow: 0 8px 32px rgba(200,130,150,0.12);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .letter-card::before {
+    content: '🤍';
+    position: absolute; top: -20px; right: -10px;
+    font-size: 7rem; opacity: 0.06;
+    transform: rotate(15deg);
+  }
+
+  .letter-text {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--text);
+    white-space: pre-line;
+  }
+
+  .letter-text .salutation {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-style: italic;
+    color: var(--rose); display: block; margin-bottom: 8px;
+  }
+
+  /* ── Quote ── */
+  #quote-sec {
+    text-align: center; padding: 40px 20px;
+  }
+
+  .big-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.1rem, 4vw, 1.45rem);
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.6;
+    position: relative;
+    max-width: 560px; margin: 0 auto;
+    padding: 28px 32px;
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    border: 1.5px solid var(--glass-border);
+    box-shadow: 0 6px 24px rgba(180,120,140,0.1);
+  }
+  .big-quote::before { content: '\201C'; font-size: 5rem; color: var(--pink); opacity: 0.4; position: absolute; top: -14px; left: 16px; line-height: 1; }
+  .big-quote::after  { content: '\201D'; font-size: 5rem; color: var(--pink); opacity: 0.4; position: absolute; bottom: -34px; right: 16px; line-height: 1; }
+
+  /* ── Final / CTA ── */
+  #final { text-align: center; padding: 70px 20px 40px; }
+
+  .final-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 6vw, 2.1rem);
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .final-sub {
+    font-size: 1rem; color: var(--muted);
+    margin-bottom: 36px;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #e8829a, #a8c8e8);
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 16px 38px;
+    border-radius: 50px;
+    border: none; cursor: pointer;
+    box-shadow: 0 8px 28px rgba(200,100,140,0.3);
+    transition: transform 0.25s, box-shadow 0.25s;
+    letter-spacing: 0.02em;
+    position: relative; overflow: hidden;
+  }
+  .cta-btn::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.25), transparent);
+    border-radius: inherit;
+  }
+  .cta-btn:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 14px 36px rgba(200,100,140,0.38); }
+  .cta-btn:active { transform: scale(0.97); }
+
+  /* ── Modal popup ── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(90,60,70,0.35);
+    backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.35s ease;
+    padding: 20px;
+  }
+  .modal-overlay.show { opacity: 1; pointer-events: all; }
+
+  .modal-card {
+    background: linear-gradient(145deg, #fff5f7, #f0f9ff);
+    border: 2px solid var(--glass-border);
+    border-radius: 28px;
+    padding: 42px 36px;
+    max-width: 360px; width: 100%;
+    text-align: center;
+    box-shadow: 0 24px 64px rgba(200,100,140,0.22);
+    transform: scale(0.8) translateY(30px);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .modal-overlay.show .modal-card { transform: scale(1) translateY(0); }
+
+  .modal-emoji { font-size: 3rem; margin-bottom: 14px; animation: heartBeat 1.2s ease infinite; }
+  @keyframes heartBeat {
+    0%,100% { transform: scale(1); }
+    30%      { transform: scale(1.18); }
+    60%      { transform: scale(1.08); }
+  }
+
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; color: var(--rose);
+    margin-bottom: 14px;
+  }
+  .modal-body { font-size: 0.95rem; color: var(--muted); line-height: 1.7; margin-bottom: 28px; }
+  .modal-close {
+    background: linear-gradient(135deg, #e8829a, #a8c8e8);
+    color: white; border: none; border-radius: 50px;
+    padding: 11px 30px; font-size: 0.9rem; font-weight: 700;
+    cursor: pointer; box-shadow: 0 4px 16px rgba(200,100,140,0.25);
+    transition: transform 0.2s;
+  }
+  .modal-close:hover { transform: scale(1.05); }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center; padding: 40px 24px 50px;
+    font-size: 0.88rem; color: var(--muted);
+    font-style: italic; line-height: 1.7;
+    border-top: 1px solid rgba(200,150,170,0.15);
+  }
+
+  /* ── Scroll-reveal ── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── Staggered children ── */
+  .stagger > * { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .stagger.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:0s; }
+  .stagger.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:0.12s; }
+  .stagger.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:0.24s; }
+  .stagger.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:0.36s; }
+  .stagger.visible > *:nth-child(5) { opacity:1; transform:none; transition-delay:0.48s; }
+
+  @keyframes fadeSlideDown {
+    from { opacity:0; transform:translateY(-22px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* ── Divider hearts ── */
+  .divider {
+    text-align: center; font-size: 1.2rem;
+    color: var(--pink); margin: 10px 0 0;
+    letter-spacing: 6px;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-gradient"></div>
+
+<!-- Floating emojis layer -->
+<div class="float-layer" id="floatLayer"></div>
+
+<!-- ░░░ HERO ░░░ -->
+<section id="hero">
+  <span class="hero-tag">A Message From The Heart 🤍</span>
+  <h1 class="hero-title">Sorry Madam Ji&nbsp;🤍</h1>
+  <p class="hero-sub">"Some friendships are too precious to lose because of misunderstandings."</p>
+
+  <!-- Cartoon character -->
+  <div class="character-wrap">
+    <span class="bubble">Sorry Madam Ji 🤍</span>
+    <span class="bubble">Genuinely Sorry 🙏</span>
+    <span class="bubble">Please Don't Stay Angry 😊</span>
+
+    <svg class="character-svg" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+      <!-- Shadow -->
+      <ellipse cx="100" cy="240" rx="38" ry="8" fill="rgba(200,100,130,0.12)"/>
+      <!-- Body -->
+      <rect x="72" y="118" width="56" height="72" rx="20" fill="#1565c0"/>
+      <rect x="72" y="118" width="56" height="72" rx="20" fill="url(#shirtGrad)" opacity="0.9"/>
+      <!-- Shirt details -->
+      <line x1="100" y1="120" x2="100" y2="185" stroke="#90caf9" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <!-- Collar -->
+      <polygon points="100,120 88,135 100,130 112,135" fill="#0d47a1"/>
+      <!-- Left arm folded -->
+      <path d="M72 132 Q48 128 50 152 Q52 162 68 158 Q76 155 80 145 Z" fill="#1976d2"/>
+      <!-- Right arm folded over left -->
+      <path d="M128 132 Q152 128 150 152 Q148 162 132 158 Q124 155 120 145 Z" fill="#1976d2"/>
+      <!-- Folded hands in center -->
+      <ellipse cx="100" cy="152" rx="22" ry="12" fill="#ffccbc"/>
+      <!-- Fingers hint -->
+      <path d="M83 150 Q88 148 94 150" stroke="#e8a090" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M86 154 Q91 152 96 154" stroke="#e8a090" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M117 150 Q112 148 106 150" stroke="#e8a090" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M114 154 Q109 152 104 154" stroke="#e8a090" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <!-- Left leg (standing) -->
+      <rect x="79" y="186" width="18" height="44" rx="9" fill="#0d47a1"/>
+      <!-- Right leg (raised) -->
+      <g transform="rotate(-40, 121, 188)">
+        <rect x="103" y="186" width="18" height="44" rx="9" fill="#0d47a1"/>
+      </g>
+      <!-- Left shoe -->
+      <ellipse cx="88" cy="230" rx="14" ry="8" fill="#1a237e"/>
+      <!-- Neck -->
+      <rect x="91" y="100" width="18" height="22" rx="9" fill="#ffccbc"/>
+      <!-- Head -->
+      <circle cx="100" cy="84" r="34" fill="#ffccbc"/>
+      <!-- Blush -->
+      <circle cx="78" cy="90" r="8" fill="#f48fb1" opacity="0.35"/>
+      <circle cx="122" cy="90" r="8" fill="#f48fb1" opacity="0.35"/>
+      <!-- Eyes — big cute sorry eyes -->
+      <ellipse cx="89" cy="82" rx="7" ry="8" fill="white"/>
+      <ellipse cx="111" cy="82" rx="7" ry="8" fill="white"/>
+      <circle cx="90" cy="84" r="4.5" fill="#4a3040"/>
+      <circle cx="112" cy="84" r="4.5" fill="#4a3040"/>
+      <circle cx="92" cy="81" r="1.8" fill="white"/>
+      <circle cx="114" cy="81" r="1.8" fill="white"/>
+      <!-- Eyelashes sorry droopy -->
+      <path d="M84 76 Q86 72 88 75" stroke="#4a3040" stroke-width="1.2" fill="none"/>
+      <path d="M106 76 Q110 72 112 75" stroke="#4a3040" stroke-width="1.2" fill="none"/>
+      <!-- Sad brow -->
+      <path d="M83 73 Q89 69 95 73" stroke="#7a5060" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M105 73 Q111 69 117 73" stroke="#7a5060" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Mouth small sorry smile -->
+      <path d="M91 97 Q100 103 109 97" stroke="#e8829a" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Hair -->
+      <path d="M67 75 Q65 48 88 46 Q100 43 112 46 Q135 48 133 75 Q128 55 100 54 Q72 55 67 75 Z" fill="#4a3040"/>
+      <path d="M67 75 Q62 68 64 58 Q66 48 72 50 Q68 60 70 75 Z" fill="#4a3040"/>
+      <!-- Sweat drop sorry -->
+      <path d="M130 62 Q134 56 136 62 Q136 68 130 68 Z" fill="#90caf9" opacity="0.8"/>
+
+      <defs>
+        <linearGradient id="shirtGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#42a5f5" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#0d47a1" stop-opacity="0.2"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+</section>
+
+<!-- ░░░ MEMORIES ░░░ -->
+<section id="memories">
+  <h2 class="sec-title reveal">The Moments I Miss ✨</h2>
+  <div class="card-grid stagger">
+    <div class="mem-card glass">
+      <div class="mem-icon">💬</div>
+      <div class="mem-title">Our Fun Conversations</div>
+      <div class="mem-desc">The kind of chats that went on for hours and still felt too short.</div>
+    </div>
+    <div class="mem-card glass">
+      <div class="mem-icon">😂</div>
+      <div class="mem-title">Times We Laughed Together</div>
+      <div class="mem-desc">Those genuine, uncontrollable laughs that only happen with a true friend.</div>
+    </div>
+    <div class="mem-card glass">
+      <div class="mem-icon">🍳</div>
+      <div class="mem-title">When You Helped Me Make Food</div>
+      <div class="mem-desc">That time in the kitchen — it was more fun than the food itself!</div>
+    </div>
+    <div class="mem-card glass">
+      <div class="mem-icon">🎭</div>
+      <div class="mem-title">Funny Moments & Jokes</div>
+      <div class="mem-desc">The silly jokes only we understood. The inside humour no one else got.</div>
+    </div>
+    <div class="mem-card glass">
+      <div class="mem-icon">🌙</div>
+      <div class="mem-title">Random Chats That Made My Day</div>
+      <div class="mem-desc">A simple "hi" from you could genuinely turn a bad day around.</div>
+    </div>
+  </div>
+  <div class="divider reveal">♡ ♡ ♡</div>
+</section>
+
+<!-- ░░░ TEASE SECTION ░░░ -->
+<section id="tease">
+  <h2 class="sec-title reveal">Things I Used To Tease You About 😂</h2>
+  <div class="tease-grid stagger">
+    <div class="tease-chip">Your Sharp Jawline 😄</div>
+    <div class="tease-chip">Your Strong Biceps 💪</div>
+    <div class="tease-chip">Your Funny Expressions 😊</div>
+  </div>
+  <div class="tease-note reveal">
+    Every joke was made with friendship and affection.<br>I never meant to hurt your feelings. 🤍
+  </div>
+  <div class="divider reveal" style="margin-top:30px">♡ ♡ ♡</div>
+</section>
+
+<!-- ░░░ APOLOGY LETTER ░░░ -->
+<section id="apology">
+  <h2 class="sec-title reveal">What I Want To Say 🤍</h2>
+  <div class="letter-card reveal">
+    <p class="letter-text"><span class="salutation">Yrr Madam Ji,</span>If I made any mistake, I am genuinely sorry.
+
+I never wanted to hurt you.
+
+If there are misunderstandings between us, I would like to clear them.
+
+Your friendship means a lot to me, and I truly value the time we spent talking and laughing together.
+
+If any of my words upset you, please accept my heartfelt apology. 🙏</p>
+  </div>
+  <div class="divider reveal" style="margin-top:34px">♡ ♡ ♡</div>
+</section>
+
+<!-- ░░░ QUOTE ░░░ -->
+<section id="quote-sec">
+  <div class="big-quote reveal">
+    Misunderstandings create distance, but honest intentions can bring people closer again.
+  </div>
+</section>
+
+<!-- ░░░ FINAL CTA ░░░ -->
+<section id="final">
+  <p class="final-text reveal">Yrr, if possible...</p>
+  <p class="final-sub reveal">Can we talk again? 😊</p>
+  <button class="cta-btn" onclick="showModal()">Baat Ho Sakti Hain? 🤍</button>
+</section>
+
+<!-- ░░░ FOOTER ░░░ -->
+<footer>
+  <p class="reveal">Some people become memories. Some become lessons.<br>And some become people you never stop caring about. 🤍</p>
+</footer>
+
+<!-- ░░░ MODAL ░░░ -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal-card">
+    <div class="modal-emoji">🌸</div>
+    <h3 class="modal-title">Thank You, Madam Ji 🌸</h3>
+    <p class="modal-body">No pressure.<br><br>I just wanted to say sorry from my heart.<br><br>Your friendship means a lot to me. 🤍</p>
+    <button class="modal-close" onclick="closeModal()">Close 🤍</button>
+  </div>
+</div>
+
+<script>
+// ── Floating emojis ──
+const emojis = ['🤍','🌸','✨','💫','⭐','🌷','💕','🍃','☁️','🌼','💗','🌟'];
+const layer = document.getElementById('floatLayer');
+
+function createFloater() {
+  const el = document.createElement('span');
+  el.className = 'floater';
+  el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+  el.style.left = Math.random() * 100 + 'vw';
+  const dur = 9 + Math.random() * 10;
+  el.style.animationDuration = dur + 's';
+  el.style.animationDelay = Math.random() * 4 + 's';
+  el.style.fontSize = (0.9 + Math.random() * 1) + 'rem';
+  layer.appendChild(el);
+  setTimeout(() => el.remove(), (dur + 4) * 1000);
+}
+
+setInterval(createFloater, 900);
+for (let i = 0; i < 8; i++) setTimeout(createFloater, i * 300);
+
+// ── Scroll reveal ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal, .stagger').forEach(el => observer.observe(el));
+
+// ── Modal ──
+function showModal() {
+  document.getElementById('modal').classList.add('show');
+  // Confetti burst
+  for (let i = 0; i < 18; i++) setTimeout(createFloater, i * 80);
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
